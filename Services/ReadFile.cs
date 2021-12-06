@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using ReadExcelFile.NewFolder;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,14 +32,16 @@ namespace ReadExcelFile.Services
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                var existingFileName = parsedContentDisposition.FileName.Replace("\"", string.Empty);
+
                 while (reader.Peek()>0)
                 {
                     line = reader.ReadLine();
 
                     res.Add(new ReadingFile
                     {
-                        item1 = Convert.ToDouble( line.Split(',')[0]),
-                        item2 = Convert.ToDouble(line.Split(',')[1])
+                        item1 = (line.Split(',')[0]).ConvertToDouble(),
+                        item2 = (line.Split(',')[1]).ConvertToDouble()
                     });
                 }
                 
@@ -46,5 +49,6 @@ namespace ReadExcelFile.Services
 
             return "hello";
         }
+
     }
 }
