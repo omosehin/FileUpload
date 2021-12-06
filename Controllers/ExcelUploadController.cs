@@ -21,12 +21,7 @@ namespace ReadExcelFile.Controllers
             this.file = file;
         }
         [HttpPost]
-        public async Task<IActionResult> UploadAsync(IFormFile files)
-        {
-            var trs = await file.Readxlfile(files);
-           
-                return Ok("filePath");
-        }
+        public async Task<IActionResult> UploadAsync(IFormFile files)=>Ok(await file.Readxlfile(files));
        
     }
 }
